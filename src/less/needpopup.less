@@ -1,0 +1,124 @@
+/*********************************************** 
+  needPopup 
+  - Version 1.0.0
+  - Copyright 2015 Dzmitry Vasileuski
+  - Licensed under MIT (http://opensource.org/licenses/MIT)
+***********************************************/
+
+/* Block page scroll
+***********************************************/
+.needpopup-opened,
+.needpopup-opened body {
+  overflow: hidden;
+}
+.needpopup-opened.needpopup-scrolled,
+.needpopup-opened.needpopup-scrolled body {
+  height:auto;
+}
+.needpopup-opened.needpopup-scrolled body {
+  position: fixed;
+  width: 100%;
+}
+
+/* Popup wrapper
+***********************************************/
+.needpopup_wrapper {
+  position: fixed;
+  overflow: auto;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease;
+
+  // optional
+  background: rgb(0,0,0);
+  background: rgba(0,0,0,.8);
+  padding: 40px 0;
+
+  .needpopup-opened & {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .needpopup-overflow & {
+    // optional
+    padding: 10px;
+  }
+}
+
+/* Popup appearence
+***********************************************/
+.needpopup {  
+  display: none;
+  position: relative;
+  width: 550px;
+  max-width: 100%;
+  left: 50%;
+  top: 50%;
+  margin-left: -275px;
+  z-index: 9999;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: scale(.1,.1);
+
+  // optional
+  background: #fff;
+  padding: 30px;
+
+  &.opened {
+    opacity: 1;
+    transition: opacity .5s ease, transform .5s ease;
+    transform: scale(1,1);
+  }
+
+  &.stacked {
+    margin-top: 0 !important;
+    top: 0 !important;
+  }
+
+  .needpopup-overflow & {
+    left: 0;
+    margin-left: 0;
+    width: auto;
+  }
+}
+
+/* Popup remover
+***********************************************/
+.needpopup_remover {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 40px;
+  line-height: .5;
+  z-index: 9999;
+  text-decoration: none;
+
+  // optional
+  color: #fff;
+
+  &:hover {
+    // optional
+    color: #ccc;
+  }
+
+  .needpopup & {
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    line-height: .5;
+
+    // optional
+    color: #000;
+
+    &:hover {
+      // optional
+      color: #ccc;
+    }
+  }
+}

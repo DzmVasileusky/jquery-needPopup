@@ -1,14 +1,11 @@
-/*!
- * needPopup: responsive popup
- *
- * Copyright (c) 2014 Dzmitry Vasileuski
- * Licensed under the MIT License
- *
- * Version: 1.0.0
- */
+/*********************************************** 
+  needPopup 
+  - Version 1.0.0
+  - Copyright 2015 Dzmitry Vasileuski
+	- Licensed under MIT (http://opensource.org/licenses/MIT)
+***********************************************/
 
-// popups init
-
+// popup object
 var needPopup = (function() {
 
 	// namespace
@@ -26,10 +23,11 @@ var needPopup = (function() {
   // html class when popup is opened
   popup.openHtmlClass = popup.scrollHeight > popup.window.innerHeight ? 'needpopup-opened needpopup-scrolled' : 'needpopup-opened';
 
-	// global
+	// global methods and properties
 	return {
 
-		// init popups
+		/* Initialization of popup
+		***********************************************/
 		init : function() {
 
 			// set default config
@@ -54,7 +52,7 @@ var needPopup = (function() {
 				if (!popup.options.closeOnOutside) return;
 
 				// check if clicked outside of popup window
-				if ($(event.target).closest('.needpopup-opened').length || $(event.target).is('.needpopup-opened, .remove')) return;
+				if ($(event.target).closest('.needpopup').length || $(event.target).is('.needpopup, .remove, .needpopup_remover')) return;
 
 				needPopup.hide();
 			})
@@ -94,29 +92,34 @@ var needPopup = (function() {
 			popup.wrapper = $(popup.wrapper);
 		},
 
-		// show popup
+		/* Show popup
+		***********************************************/
 		show : function(_target) {
 
 			// hide already opened popup
 			if (popup.target)
 				needPopup.hide(true);
+			else {
+				// recalculate window scroll top
+				popup.scrollTopVal = popup.window.pageYOffset;
 
+				// block page scroll
+				$(popup.body).css({'top': -popup.scrollTopVal});
+				$(popup.html).addClass(popup.openHtmlClass);
+			}
+			
 			// set target popup
 			popup.target = $(_target);
 
 			// reset options if defined
-			if (!!popup.target.data('needpopupOptions'))
+			if (!popup.target.data('needpopupOptions'))
+				popup.options = needPopup.config['default'];
+			else
 				popup.options = needPopup.config[popup.target.data('needpopupOptions')];
+
 
 			// cache popup width
 			popup.minWidth = popup.target.outerWidth();
-
-			// recalculate window scroll top
-			popup.scrollTopVal = popup.window.pageYOffset;
-
-			// block page scroll
-			$(popup.body).css({'top': -popup.scrollTopVal});
-			$(popup.html).addClass(popup.openHtmlClass);
 
 			// create layout
 			popup.wrapper.append(popup.target);
@@ -138,7 +141,8 @@ var needPopup = (function() {
 			},10);
 		},
 
-		// hide popup
+		/* Hide popup
+		***********************************************/
 		hide : function(_partial) {
 
 			// hide popup and unset property
@@ -160,7 +164,8 @@ var needPopup = (function() {
 			popup.options.onHide.call(popup);
 		},
 
-		// centrify popup
+		/* Centrify popup and set responsive classes
+		***********************************************/
 		centrify: function() {
 			if (popup.target) {
 				// vertical centrification
@@ -179,11 +184,12 @@ var needPopup = (function() {
 			}
 		},
 
-		// configuration object which contains all options sets
+		/* Configuration object which contains all options sets
+		***********************************************/
 		'config': {
 			'default' : { 
 				// 'outside' to place in wrapper and 'inside' to place in popup
-				'removerPlace': 'outside',
+				'removerPlace': 'inside',
 				// close on click outside popup
 				'closeOnOutside': true,
 				// on show callback
@@ -192,5 +198,7 @@ var needPopup = (function() {
 				onHide: function() {}
 			}
 		}
+
 	}
+
 })();
