@@ -36,7 +36,7 @@ var needPopup = (function() {
 			// bind popup show to data-popupshow nodes
 			$(popup.body).on('click','[data-needpopup-show]', function(event) {
 				event.preventDefault();
-				needPopup.show($(this).data('needpopupShow'));
+				needPopup.show($(this).data('needpopupShow'),$(this));
 			})
 
 			// bind popup hide to removers
@@ -94,7 +94,13 @@ var needPopup = (function() {
 
 		/* Show popup
 		***********************************************/
-		show : function(_target) {
+		show : function(_target, _trigger) {
+
+			// save popup trigger if it exists
+			if (!_trigger)
+				popup.trigger = 0;
+			else
+				popup.trigger = _trigger;
 
 			// hide already opened popup
 			if (popup.target)
@@ -112,10 +118,9 @@ var needPopup = (function() {
 			popup.target = $(_target);
 
 			// reset options if defined
-			if (!popup.target.data('needpopupOptions'))
-				popup.options = needPopup.config['default'];
-			else
-				popup.options = needPopup.config[popup.target.data('needpopupOptions')];
+			popup.options = needPopup.config['default'];
+			if (!!popup.target.data('needpopupOptions'))
+				$.extend( popup.options, needPopup.config[popup.target.data('needpopupOptions')] );
 
 
 			// cache popup width
@@ -126,7 +131,10 @@ var needPopup = (function() {
 			if (popup.options.removerPlace == 'outside')
 				popup.wrapper.after('<a href="#" class="needpopup_remover">×</a>');
 			else if (popup.options.removerPlace == 'inside')
-				popup.target.append('<a href="#" class="needpopup_remover">×</a>');
+				popup.target.append('<a href="#" class="needpopup_remover">×</a>'); 
+
+			// on before show callback
+			popup.options.onBeforeShow.call(popup,popup.target);
 			
 			// display popup
 			popup.target.show();
@@ -137,7 +145,7 @@ var needPopup = (function() {
 				popup.target.addClass('opened');
 
 				// on show callback
-				popup.options.onShow.call(popup);
+				popup.options.onShow.call(popup,popup.target);
 			},10);
 		},
 
@@ -161,7 +169,7 @@ var needPopup = (function() {
 			}
 
 			// on hide callback
-			popup.options.onHide.call(popup);
+			popup.options.onHide.call(popup,popup.target);
 		},
 
 		/* Centrify popup and set responsive classes
@@ -194,6 +202,8 @@ var needPopup = (function() {
 				'closeOnOutside': true,
 				// on show callback
 				onShow: function() {},
+				// on before show callback
+				onBeforeShow: function() {},
 				// on hide callback
 				onHide: function() {}
 			}

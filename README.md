@@ -97,7 +97,18 @@ Calls immediately after the popup is shown
 default: function(){}
 options: function(popup){ // your code here }
 arguments:
-  popup: object that contained all necessary options to control current popup (for example popup.target - current popup element)
+  this: object that contained all necessary options to control current popup (for example popup.target - current popup element)
+  popup: popup window element 
+```
+
+**onBeforeShow**
+Calls immediately before the popup is shown
+```
+default: function(){}
+options: function(popup){ // your code here }
+arguments:
+  this: object that contained all necessary options to control current popup (for example popup.target - current popup element)
+  popup: popup window element 
 ```
 
 **onHide**
@@ -106,5 +117,6 @@ Calls immediately after the popup is removed
 default: function(){}
 options: function(popup){ // your code here }
 arguments:
-  popup: object that contained all necessary options to control current popup (for example popup.target - current popup element)
+  this: object that contained all necessary options to control current popup (for example popup.target - current popup element)
+  popup: popup window element 
 ```
