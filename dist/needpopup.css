@@ -112,6 +112,9 @@
 .needpopup_remover:hover {
   color: #ccc;
 }
+.needpopup_remover:before {
+  content: '×';
+}
 .needpopup .needpopup_remover {
   top: 10px;
   right: 10px;

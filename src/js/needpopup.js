@@ -129,9 +129,9 @@ var needPopup = (function() {
 			// create layout
 			popup.wrapper.append(popup.target);
 			if (popup.options.removerPlace == 'outside')
-				popup.wrapper.after('<a href="#" class="needpopup_remover">×</a>');
+				popup.wrapper.after('<a href="#" class="needpopup_remover"></a>');
 			else if (popup.options.removerPlace == 'inside')
-				popup.target.append('<a href="#" class="needpopup_remover">×</a>'); 
+				popup.target.append('<a href="#" class="needpopup_remover"></a>'); 
 
 			// on before show callback
 			popup.options.onBeforeShow.call(popup,popup.target);
@@ -153,9 +153,8 @@ var needPopup = (function() {
 		***********************************************/
 		hide : function(_partial) {
 
-			// hide popup and unset property
+			// hide popup
 			popup.target.hide().removeClass('opened');
-			popup.target = 0;
 			// delete remover
 			$('.needpopup_remover').remove();
 
@@ -170,6 +169,9 @@ var needPopup = (function() {
 
 			// on hide callback
 			popup.options.onHide.call(popup,popup.target);
+
+			// unset property
+			popup.target = 0;
 		},
 
 		/* Centrify popup and set responsive classes
@@ -195,7 +197,7 @@ var needPopup = (function() {
 		/* Configuration object which contains all options sets
 		***********************************************/
 		'config': {
-			'default' : { 
+			'default' : {
 				// 'outside' to place in wrapper and 'inside' to place in popup
 				'removerPlace': 'inside',
 				// close on click outside popup
