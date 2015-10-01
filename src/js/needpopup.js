@@ -47,8 +47,8 @@ var needPopup = (function() {
 
 			// bind popup hide if clicked outside
 			$(popup.body).on('click','.needpopup_wrapper', function(event) {
-				event.preventDefault();
-				event.stopPropagation();
+				if (!$(event.target).is('.needpopup_wrapper')) return;
+
 				if (!popup.options.closeOnOutside) return;
 
 				// check if clicked outside of popup window
