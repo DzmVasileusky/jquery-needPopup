@@ -118,7 +118,8 @@ var needPopup = (function() {
 			popup.target = $(_target);
 
 			// reset options if defined
-			popup.options = needPopup.config['default'];
+			popup.options = {};
+			$.extend( popup.options, needPopup.config['default'] );
 			if (!!popup.target.data('needpopupOptions'))
 				$.extend( popup.options, needPopup.config[popup.target.data('needpopupOptions')] );
 

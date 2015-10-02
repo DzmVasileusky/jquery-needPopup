@@ -47,10 +47,8 @@ var needPopup = (function() {
 
 			// bind popup hide if clicked outside
 			$(popup.body).on('click','.needpopup_wrapper', function(event) {
-				console.log($(event.target).is('.needpopup_wrapper'));
 				if (!$(event.target).is('.needpopup_wrapper')) return;
 
-				event.preventDefault();
 				if (!popup.options.closeOnOutside) return;
 
 				// check if clicked outside of popup window
@@ -120,7 +118,8 @@ var needPopup = (function() {
 			popup.target = $(_target);
 
 			// reset options if defined
-			popup.options = needPopup.config['default'];
+			popup.options = {};
+			$.extend( popup.options, needPopup.config['default'] );
 			if (!!popup.target.data('needpopupOptions'))
 				$.extend( popup.options, needPopup.config[popup.target.data('needpopupOptions')] );
 
